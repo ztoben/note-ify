@@ -25,4 +25,10 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+html {
+  -webkit-app-region: drag;
+}
+button {
+  -webkit-app-region: no-drag;
+}
 </style>

@@ -1,7 +1,13 @@
 const { app, BrowserWindow } = require('electron');
+const windowStateKeeper = require('electron-window-state');
+const platform = require('electron-platform');
+// TODO: Implement a store to save notes
+// const Store = require('electron-store');
+// const store = new Store();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
+let mainWindowState = null;
 let window;
 let url;
 
@@ -11,15 +17,42 @@ if (process.env.NODE_ENV === 'DEV') {
   url = `file://${process.cwd()}/dist/index.html`
 }
 
-function createWindow () {
+// Don't show the app in the dock on osx
+if (platform.isDarwin) {
+  app.dock.hide();
+}
+
+function createWindow() {
+  if (!mainWindowState) {
+    mainWindowState = windowStateKeeper({
+      defaultWidth: 350,
+      defaultHeight: 400
+    });
+
+    manageWindow();
+  } else {
+    manageWindow();
+  }
+}
+
+function manageWindow () {
   // Create the browser window.
-  window = new BrowserWindow({width: 800, height: 600});
+  window = new BrowserWindow({
+    'x': mainWindowState.x,
+    'y': mainWindowState.y,
+    'width': mainWindowState.width,
+    'height': mainWindowState.height,
+    titleBarStyle: 'hiddenInset'
+  });
+
+  // Manage the window state to retain window location and size
+  mainWindowState.manage(window);
 
   // and load the index.html of the app.
   window.loadURL(url);
 
   // Open the DevTools.
-  if (process.env.NODE_ENV === 'DEV') window.webContents.openDevTools();
+  // if (process.env.NODE_ENV === 'DEV') window.webContents.openDevTools();
 
   // Emitted when the window is closed.
   window.on('closed', () => {
