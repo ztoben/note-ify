@@ -1,29 +1,18 @@
 # note-ify
 
-## Project setup
+*A notes app written in Vue and Electron.*
+
+## Running the dev server
 ```
-npm install
+npm run dev
 ```
 
-### Compiles and hot-reloads for development
+## Running production build locally
 ```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
+npm run start
 ```
 
-### Run your tests
+## Building distributable app
 ```
-npm run test
+npm run bundle
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

@@ -15,10 +15,10 @@
     "postinstall": "electron-builder install-app-deps",
     "bundle": "npm run build && npm run dist"
   },
+  "main": "./app.js",
   "dependencies": {
     "vue": "^2.5.17"
   },
-  "main": "./app.js",
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.2.0",
     "@vue/cli-plugin-eslint": "^3.2.0",
