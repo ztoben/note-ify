@@ -1,11 +1,14 @@
 {
   "name": "note-ify",
   "version": "0.1.0",
-  "private": true,
+  "license": "MIT",
+  "author": "Zach Toben",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "dev": "NODE_ENV=DEV vue-cli-service serve & sleep 5 && NODE_ENV=DEV electron app.js",
+    "start": "npm run build && electron app.js"
   },
   "dependencies": {
     "vue": "^2.5.17"
@@ -16,6 +19,7 @@
     "@vue/cli-service": "^3.2.0",
     "@vue/eslint-config-prettier": "^4.0.0",
     "babel-eslint": "^10.0.1",
+    "electron": "3.0.12",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0-0",
     "vue-template-compiler": "^2.5.17"
