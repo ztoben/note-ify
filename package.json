@@ -1,5 +1,6 @@
 {
   "name": "note-ify",
+  "description": "A notes app",
   "version": "0.1.0",
   "license": "MIT",
   "author": "Zach Toben",
@@ -8,11 +9,16 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "dev": "NODE_ENV=DEV vue-cli-service serve & sleep 5 && NODE_ENV=DEV electron app.js",
-    "start": "npm run build && electron app.js"
+    "start": "npm run build && electron app.js",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "postinstall": "electron-builder install-app-deps",
+    "bundle": "npm run build && npm run dist"
   },
   "dependencies": {
     "vue": "^2.5.17"
   },
+  "main": "./app.js",
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.2.0",
     "@vue/cli-plugin-eslint": "^3.2.0",
@@ -20,9 +26,17 @@
     "@vue/eslint-config-prettier": "^4.0.0",
     "babel-eslint": "^10.0.1",
     "electron": "3.0.12",
+    "electron-builder": "20.38.3",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0-0",
     "vue-template-compiler": "^2.5.17"
+  },
+  "build": {
+    "appId": "com.note-ify.app",
+    "mac": {
+      "category": "public.app-category.productivity",
+      "darkModeSupport": false
+    }
   },
   "eslintConfig": {
     "root": true,
