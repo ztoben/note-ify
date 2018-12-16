@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Tray } = require('electron');
 const windowStateKeeper = require('electron-window-state');
 const platform = require('electron-platform');
 // TODO: Implement a store to save notes
@@ -8,6 +8,7 @@ const platform = require('electron-platform');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindowState = null;
+let tray = null;
 let window;
 let url;
 
@@ -20,6 +21,21 @@ if (process.env.NODE_ENV === 'DEV') {
 // Don't show the app in the dock on osx
 if (platform.isDarwin) {
   app.dock.hide();
+}
+
+function toggleWindow() {
+  if (window.isVisible()) {
+    window.hide();
+  } else {
+    window.show();
+    window.focus();
+  }
+}
+
+function createTray() {
+  tray = new Tray('./src/assets/tray-icon_24x24.png');
+  tray.setToolTip('note-ify');
+  tray.on('double-click', toggleWindow);
 }
 
 function createWindow() {
@@ -44,6 +60,9 @@ function manageWindow () {
     'height': mainWindowState.height,
     titleBarStyle: 'hiddenInset'
   });
+
+  // Create icon tray
+  createTray();
 
   // Manage the window state to retain window location and size
   mainWindowState.manage(window);
