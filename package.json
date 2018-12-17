@@ -12,7 +12,8 @@
     "dist": "electron-builder",
     "pack": "electron-builder --dir",
     "postinstall": "electron-builder install-app-deps",
-    "start": "npm run build && electron app.js"
+    "start": "npm run build && electron app.js",
+    "kill": "lsof -ti:8888 | xargs kill"
   },
   "dependencies": {
     "electron-platform": "1.2.0",
