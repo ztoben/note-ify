@@ -7,12 +7,17 @@
 npm run dev
 ```
 
-## Running production build locally
+## Killing the local dev server (OSX Only)
+```
+npm run kill
+```
+
+## Running the production build locally
 ```
 npm run start
 ```
 
-## Building distributable app
+## Building the installable file
 ```
 npm run bundle
 ```

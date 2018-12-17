@@ -32,6 +32,8 @@
     "electron-builder": "20.38.3",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0-0",
+    "node-sass": "4.11.0",
+    "sass-loader": "7.1.0",
     "vue-template-compiler": "^2.5.17"
   },
   "eslintConfig": {
