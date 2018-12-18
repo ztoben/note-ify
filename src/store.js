@@ -5,19 +5,23 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    notes: [
-      {
-        value: "Hello World"
-      }
-    ]
+    notes: []
   },
   mutations: {
-    addNote(state) {
-      state.notes.push({ value: "" });
+    addNote(state, { index }) {
+      const emptyNote = { value: "" };
+      if (!index) {
+        state.notes.push(emptyNote);
+      } else {
+        state.notes.splice(index, 0, emptyNote);
+      }
     },
     removeNote(state, id) {
       state.notes.splice(id, 1);
     }
   },
-  actions: {}
+  actions: {},
+  getters: {
+    notes: state => state.notes
+  }
 });

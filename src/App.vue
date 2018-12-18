@@ -2,12 +2,11 @@
   <div id="app">
     <h1>Notes</h1>
     <Notes/>
-    <button v-on:click="addNote">+ Add a note</button>
+    <button v-on:click="handleAddNote">+ Add a note</button>
   </div>
 </template>
 
 <script>
-import { mapMutations } from "vuex";
 import Notes from "./components/Notes.vue";
 
 export default {
@@ -16,7 +15,9 @@ export default {
     Notes
   },
   methods: {
-    ...mapMutations(["addNote"])
+    handleAddNote: function() {
+      this.$store.commit("addNote", {});
+    }
   }
 };
 </script>

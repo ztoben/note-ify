@@ -1,8 +1,22 @@
 <template>
   <div id="notes-container">
-    <div class="note-container" @mouseover="active = !active" @mouseout="active = !active" v-for="(note, index) in notes" :key="index">
-      <textarea v-model="note.value" @input="autoExpand" wrap="soft"></textarea>
-      <button v-if="active" @click="removeNote(index)">X</button>
+    <div
+      class="note-container"
+      v-for="(note, index) in notes"
+      @mouseover="active = index"
+      @mouseout="active = null"
+      :key="index"
+      ref="noteContainer"
+    >
+      <textarea
+        v-model="note.value"
+        @input="autoExpand"
+        @focus="handleFocus(index)"
+        @blur="handleBlur"
+        @keypress.enter="handleAddNote"
+        wrap="soft"
+      ></textarea>
+      <button v-if="active === index" @click="handleRemoveNote(index)">X</button>
     </div>
   </div>
 </template>
@@ -14,28 +28,60 @@ export default {
   name: "Notes",
   data() {
     return {
-      active: false
+      active: null,
+      selected: null
     };
   },
   computed: {
     ...mapState(["notes"])
   },
   methods: {
-    ...mapMutations(["removeNote"]),
+    ...mapMutations(["removeNote", "addNote"]),
     autoExpand: function(event) {
-      console.log(event); // eslint-disable-line
+      function getPropValue(prop) {
+        return parseInt(computed.getPropertyValue(prop), 10);
+      }
+
       event.target.style.height = "inherit";
 
       const computed = window.getComputedStyle(event.target);
 
       const height =
-        parseInt(computed.getPropertyValue("border-top-width"), 10) +
-        parseInt(computed.getPropertyValue("padding-top"), 10) +
-        event.target.scrollHeight +
-        parseInt(computed.getPropertyValue("padding-bottom"), 10) +
-        parseInt(computed.getPropertyValue("border-bottom-width"), 10);
+        getPropValue("border-top-width") +
+        getPropValue("padding-top") +
+        getPropValue("padding-bottom") +
+        getPropValue("border-bottom-width") +
+        event.target.scrollHeight;
 
       event.target.style.height = `${height}px`;
+    },
+    handleAddNote: function(event) {
+      event.preventDefault();
+      this.selected += 1;
+      this.$store.commit("addNote", { index: this.selected });
+    },
+    handleRemoveNote: function(index) {
+      this.removeNote(index);
+      this.$nextTick(() => {
+        if (this.notes.length > 0) {
+          this.$refs.noteContainer[index].children[0].focus();
+        }
+      });
+    },
+    handleFocus: function(index) {
+      this.selected = index;
+    },
+    handleBlur: function() {
+      this.selected = null;
+    }
+  },
+  watch: {
+    selected: function(newSelected) {
+      if (newSelected !== null) {
+        this.$nextTick(() => {
+          this.$refs.noteContainer[newSelected].children[0].focus();
+        });
+      }
     }
   }
 };
@@ -54,6 +100,7 @@ export default {
     width: 100%;
     display: flex;
     flex-direction: row;
+    align-items: flex-start;
 
     > * {
       display: inline-flex;
@@ -62,7 +109,7 @@ export default {
     }
 
     textarea {
-      width: calc(100% - 20px);
+      width: calc(100% - 25px);
       line-height: 24px;
       padding-left: 10px;
       outline: none;
@@ -75,6 +122,23 @@ export default {
 
     button {
       font-size: 12px;
+      height: 18px;
+      width: 18px;
+      display: flex;
+      align-content: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 1px solid gray;
+      margin-top: 6px;
+
+      &:hover {
+        background-color: lightgray;
+      }
+
+      &:active {
+        background-color: gray;
+        color: white;
+      }
     }
 
     &:before {

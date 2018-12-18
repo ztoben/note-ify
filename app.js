@@ -71,7 +71,7 @@ function manageWindow() {
   window.loadURL(url);
 
   // Open the DevTools.
-  if (process.env.NODE_ENV === 'DEV') window.webContents.openDevTools();
+  // if (process.env.NODE_ENV === "DEV") window.webContents.openDevTools();
 
   // Emitted when the window is closed.
   window.on("closed", () => {
