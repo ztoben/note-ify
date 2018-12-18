@@ -5,11 +5,15 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    notes: ["Hello World"]
+    notes: [
+      {
+        value: "Hello World"
+      }
+    ]
   },
   mutations: {
     addNote(state) {
-      state.notes.push("");
+      state.notes.push({ value: "" });
     },
     removeNote(state, id) {
       state.notes.splice(id, 1);

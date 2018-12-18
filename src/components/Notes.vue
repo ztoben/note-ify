@@ -1,13 +1,9 @@
 <template>
   <div id="notes-container">
-    <ul>
-      <li @mouseover="active = !active" @mouseout="active = !active" v-for="(note, index) in notes" :key="note">
-        <div class="note-container">
-          <span>{{ note }}</span>
-          <button v-if="active" @click="removeNote(index)">X</button>
-        </div>
-      </li>
-    </ul>
+    <div class="note-container" @mouseover="active = !active" @mouseout="active = !active" v-for="(note, index) in notes" :key="index">
+      <textarea v-model="note.value" @input="autoExpand" wrap="soft"></textarea>
+      <button v-if="active" @click="removeNote(index)">X</button>
+    </div>
   </div>
 </template>
 
@@ -25,7 +21,22 @@ export default {
     ...mapState(["notes"])
   },
   methods: {
-    ...mapMutations(["removeNote"])
+    ...mapMutations(["removeNote"]),
+    autoExpand: function(event) {
+      console.log(event); // eslint-disable-line
+      event.target.style.height = "inherit";
+
+      const computed = window.getComputedStyle(event.target);
+
+      const height =
+        parseInt(computed.getPropertyValue("border-top-width"), 10) +
+        parseInt(computed.getPropertyValue("padding-top"), 10) +
+        event.target.scrollHeight +
+        parseInt(computed.getPropertyValue("padding-bottom"), 10) +
+        parseInt(computed.getPropertyValue("border-bottom-width"), 10);
+
+      event.target.style.height = `${height}px`;
+    }
   }
 };
 </script>
@@ -33,6 +44,7 @@ export default {
 <style scoped lang="scss">
 #notes-container {
   display: flex;
+  flex-direction: column;
   flex: 1;
   padding: 0 0 0 20px;
   overflow: scroll;
@@ -49,37 +61,26 @@ export default {
       padding: 0;
     }
 
-    span {
-      flex: 1;
+    textarea {
+      width: calc(100% - 20px);
       line-height: 24px;
       padding-left: 10px;
+      outline: none;
+      border: none;
+      background: transparent;
+      overflow: auto;
+      resize: none;
+      height: 24px;
     }
 
     button {
       font-size: 12px;
     }
-  }
 
-  ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-  }
-
-  ul > li:before {
-    content: "–"; /* en dash */
-    margin-left: -1.5em;
-  }
-
-  li {
-    display: flex;
-    margin: 0 0 0 10px;
-    height: 24px;
-  }
-
-  a {
-    color: #42b983;
+    &:before {
+      content: "–"; /* en dash */
+      margin-left: -1em;
+    }
   }
 }
 </style>
