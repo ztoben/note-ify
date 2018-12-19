@@ -67,9 +67,12 @@
   "build": {
     "appId": "com.note-ify.app",
     "mac": {
-      "category": "public.app-category.productivity",
-      "darkModeSupport": false
-    }
+      "category": "public.app-category.productivity"
+    },
+    "files": [
+      "**/*",
+      "build/icon.*"
+    ]
   },
   "license": "MIT",
   "main": "./app.js"

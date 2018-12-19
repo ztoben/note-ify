@@ -1,6 +1,7 @@
 const { app, BrowserWindow, Tray } = require("electron");
 const windowStateKeeper = require("electron-window-state");
 const platform = require("electron-platform");
+const path = require("path");
 
 // reload electron on changes
 try {
@@ -37,7 +38,8 @@ function toggleWindow() {
 }
 
 function createTray() {
-  tray = new Tray("./src/assets/tray-icon_24x24.png");
+  const trayPath = path.join(__dirname, "/src/assets/tray-icon_24x24.png");
+  tray = new Tray(trayPath);
   tray.setToolTip("note-ify");
   tray.on("double-click", toggleWindow);
 }
