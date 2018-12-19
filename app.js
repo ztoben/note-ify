@@ -5,6 +5,13 @@ const platform = require("electron-platform");
 // const Store = require('electron-store');
 // const store = new Store();
 
+// reload electron on changes
+try {
+  require("electron-reloader")(module);
+} catch (err) {
+  console.log(err); // eslint-disable-line no-console
+}
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindowState = null;
