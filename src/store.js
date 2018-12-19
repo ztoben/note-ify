@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { createPersistedState } from "vuex-electron";
 
 Vue.use(Vuex);
 
@@ -20,8 +21,17 @@ export default new Vuex.Store({
       state.notes.splice(id, 1);
     }
   },
-  actions: {},
+  actions: {
+    addNote({ commit }, index) {
+      if (index) {
+        commit("addNote", { index });
+      } else {
+        commit("addNote", {});
+      }
+    }
+  },
   getters: {
     notes: state => state.notes
-  }
+  },
+  plugins: [createPersistedState()]
 });

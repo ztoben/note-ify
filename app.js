@@ -1,9 +1,6 @@
 const { app, BrowserWindow, Tray } = require("electron");
 const windowStateKeeper = require("electron-window-state");
 const platform = require("electron-platform");
-// TODO: Implement a store to save notes
-// const Store = require('electron-store');
-// const store = new Store();
 
 // reload electron on changes
 try {
@@ -78,7 +75,7 @@ function manageWindow() {
   window.loadURL(url);
 
   // Open the DevTools.
-  // if (process.env.NODE_ENV === "DEV") window.webContents.openDevTools();
+  if (process.env.NODE_ENV === "DEV") window.webContents.openDevTools();
 
   // Emitted when the window is closed.
   window.on("closed", () => {

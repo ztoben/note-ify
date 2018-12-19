@@ -16,7 +16,7 @@ export default {
   },
   methods: {
     handleAddNote: function() {
-      this.$store.commit("addNote", {});
+      this.$store.dispatch("addNote", null);
     }
   }
 };

@@ -36,7 +36,7 @@ export default {
     ...mapState(["notes"])
   },
   methods: {
-    ...mapMutations(["removeNote", "addNote"]),
+    ...mapMutations(["removeNote"]),
     autoExpand: function(event) {
       function getPropValue(prop) {
         return parseInt(computed.getPropertyValue(prop), 10);
@@ -58,13 +58,17 @@ export default {
     handleAddNote: function(event) {
       event.preventDefault();
       this.selected += 1;
-      this.$store.commit("addNote", { index: this.selected });
+      this.$store.dispatch("addNote", this.selected);
     },
     handleRemoveNote: function(index) {
       this.removeNote(index);
       this.$nextTick(() => {
         if (this.notes.length > 0) {
-          this.$refs.noteContainer[index].children[0].focus();
+          if (index >= this.notes.length) {
+            this.$refs.noteContainer[this.notes.length - 1].children[0].focus();
+          } else {
+            this.$refs.noteContainer[index].children[0].focus();
+          }
         }
       });
     },
