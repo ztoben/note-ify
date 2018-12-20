@@ -71,7 +71,8 @@
     },
     "files": [
       "**/*",
-      "build/icon.*"
+      "build",
+      "dist"
     ]
   },
   "license": "MIT",

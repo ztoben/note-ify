@@ -20,7 +20,7 @@ let url;
 if (process.env.NODE_ENV === "DEV") {
   url = "http://localhost:8888/";
 } else {
-  url = `file://${process.cwd()}/dist/index.html`;
+  url = `file://${path.join(__dirname, "/dist/index.html")}`;
 }
 
 // Don't show the app in the dock on osx
@@ -38,7 +38,7 @@ function toggleWindow() {
 }
 
 function createTray() {
-  const trayPath = path.join(__dirname, "/src/assets/tray-icon_24x24.png");
+  const trayPath = path.join(__dirname, "/build/tray-icon_24x24.png");
   tray = new Tray(trayPath);
   tray.setToolTip("note-ify");
   tray.on("double-click", toggleWindow);
